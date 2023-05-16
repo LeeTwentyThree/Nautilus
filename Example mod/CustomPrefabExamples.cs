@@ -2,6 +2,8 @@ using BepInEx;
 using Nautilus.Assets;
 using Nautilus.Assets.Gadgets;
 using Nautilus.Assets.PrefabTemplates;
+using Nautilus.Crafting;
+using Nautilus.Handlers;
 using UnityEngine;
 using BiomeData = LootDistributionData.BiomeData;
 
@@ -24,13 +26,13 @@ public class CustomPrefabExamples : BaseUnityPlugin
          * make this item work in the game.
          */
         PrefabInfo copperCloneInfo = PrefabInfo.WithTechType("CopperClone", "Copper Ore Clone", "Copper Ore clone that makes me go yes.");
-        
+
         /*
          * Here we're assigning the Copper icon for our item.
          * You may also use a custom image as your icon by calling the ImageUtils.LoadSpriteFromFile method.
          */
         copperCloneInfo.WithIcon(SpriteManager.Get(TechType.Copper));
-        
+
         /*
          * Here we are setting up an instance of CustomPrefab.
          * CustomPrefab is where you actually add logic and birth to your item.
@@ -47,7 +49,7 @@ public class CustomPrefabExamples : BaseUnityPlugin
             // Callback to change all material colors of this clone to red.
             ModifyPrefab = prefab => prefab.GetComponentsInChildren<Renderer>().ForEach(r => r.materials.ForEach(m => m.color = Color.red))
         };
-        
+
         /*
          * Here we are setting the Copper clone we created earlier as our item's prefab.
          */
@@ -58,7 +60,7 @@ public class CustomPrefabExamples : BaseUnityPlugin
          */
         copperClone.SetSpawns(new BiomeData { biome = BiomeType.SafeShallows_Grass, count = 4, probability = 0.1f },
             new BiomeData { biome = BiomeType.SafeShallows_CaveFloor, count = 1, probability = 0.4f });
-        
+
         /*
          * And finally, we register it to the game.
          * Now we can spawn our item to the world manually by using the command 'spawn copperclone', or
@@ -66,5 +68,33 @@ public class CustomPrefabExamples : BaseUnityPlugin
          * Refrain from modifying the item further more or adding more gadgets after Register is called as they will not be called.
          */
         copperClone.Register();
+
+        // Here is an example with a craftable item that is unlocked alongside diamonds:
+
+        var diamondAlloyInfo = PrefabInfo.WithTechType("DiamondAlloy", "Diamond Alloy", "A strong alloy made of diamonds.")
+            .WithIcon(SpriteManager.Get(TechType.PlasteelIngot));
+
+        var diamondAlloy = new CustomPrefab(diamondAlloyInfo);
+
+        PrefabTemplate diamondAlloyCloneTemplate = new CloneTemplate(diamondAlloyInfo, TechType.PlasteelIngot)
+        {
+            // Callback to change all material colors of this clone to red.
+            ModifyPrefab = prefab =>
+            {
+                prefab.GetComponentsInChildren<Renderer>().ForEach(r => r.materials.ForEach(m => m.color = Color.blue));
+            }
+        };
+
+        diamondAlloy.SetGameObject(diamondAlloyCloneTemplate);
+
+        diamondAlloy.SetUnlock(TechType.Diamond);
+        diamondAlloy.SetRecipe(new RecipeData(new CraftData.Ingredient[] { new CraftData.Ingredient(TechType.Diamond, 5) }));
+        diamondAlloy.SetPdaGroupCategory(TechGroup.Resources, TechCategory.AdvancedMaterials);
+
+
+        // StoryGoalHandler.RegisterItemGoal("DiamondAlloyUnlock", Story.GoalType.Story, TechType.Diamond);
+        // StoryGoalHandler.RegisterOnGoalUnlockData("DiamondAlloyUnlock", new Story.UnlockBlueprintData[] {new Story.UnlockBlueprintData() { techType = TechType.Diamond, unlockType = Story.UnlockBlueprintData.UnlockType.Available }});
+
+        diamondAlloy.Register();
     }
 }
