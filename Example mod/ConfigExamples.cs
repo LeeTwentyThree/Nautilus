@@ -1,10 +1,8 @@
 using Nautilus.Commands;
-using Nautilus.Handlers;
 using Nautilus.Json;
 using Nautilus.Json.Attributes;
 using Nautilus.Options;
 using Nautilus.Options.Attributes;
-using Nautilus.Utility;
 
 namespace Nautilus.Examples;
 
@@ -13,6 +11,8 @@ using Handlers;
 using UnityEngine;
 using BepInEx;
 using BepInEx.Logging;
+
+#pragma warning disable IDE1006 // Suppress warnings related to "Naming Styles"
 
 [BepInPlugin("com.snmodding.nautilus.configexample", "Nautilus Config Example Mod", PluginInfo.PLUGIN_VERSION)]
 [BepInDependency("com.snmodding.nautilus")]
@@ -33,7 +33,7 @@ public class ConfigExamples : BaseUnityPlugin
     {
 
         LogSource = Logger;
-
+        ModDatabankHandler.RegisterMod(Info);
         /// Here, we are setting up a instance of <see cref="Config"/>, which will automatically generate an 
         /// options menu using Attributes. The values in this instance will be updated whenever the user changes 
         /// the corresponding option in the menu.
@@ -139,7 +139,7 @@ public enum CustomChoice { One, Two, Three }
 /// (defaults to "config") and an optional subfolder for the config file to reside in.</para>
 /// </summary>
 [Menu("Nautilus Example Mod")]
-public class Config: ConfigFile
+public class Config : ConfigFile
 {
     /// <summary>
     /// <para>A <see cref="ChoiceAttribute"/> is represented by a group of options where only one can be selected at a time,
