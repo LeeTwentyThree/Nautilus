@@ -14,6 +14,7 @@ This section covers step-by-step tutorials on how to get some of the useful feat
 ### Prefabs
 * [Prefab basics](prefabs-overview.md)
 * [Loading & instantiating prefabs](loading-and-instantiating-prefabs.md)
+* [Asynchronous prefab construction](async-prefab-construction.md)
 
 ### Editing Content
 * [Background type](background-type.md)

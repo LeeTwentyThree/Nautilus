@@ -18,6 +18,8 @@
       href: prefabs-overview.md
     - name: Loading & instantiating prefabs
       href: loading-and-instantiating-prefabs.md
+    - name: Asynchronous prefab construction
+      href: async-prefab-construction.md
     
 - name: Editing Content
   items:
