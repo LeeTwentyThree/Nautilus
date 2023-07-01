@@ -54,6 +54,7 @@ public class Initializer : BaseUnityPlugin
         TooltipPatcher.Patch(_harmony);
         SurvivalPatcher.Patch(_harmony);
         CustomSoundPatcher.Patch(_harmony);
+        EatablePatcher.Patch(_harmony);
         MaterialUtils.Patch();
         FontReferencesPatcher.Patch(_harmony);
         VehicleUpgradesPatcher.Patch(_harmony);
