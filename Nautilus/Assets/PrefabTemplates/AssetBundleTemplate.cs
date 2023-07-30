@@ -1,10 +1,6 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Nautilus.Assets.PrefabTemplates;
@@ -16,6 +12,11 @@ public class AssetBundleTemplate : PrefabTemplate
 {
     private GameObject _prefab;
     private static Dictionary<Assembly, AssetBundle> _loadedBundles = new Dictionary<Assembly, AssetBundle>();
+
+    /// <summary>
+    /// Returns the prefab for modification purposes.
+    /// </summary>
+    public GameObject Prefab => _prefab;
 
     /// <summary>
     /// Instantiates a new AssetBundleTemplate
