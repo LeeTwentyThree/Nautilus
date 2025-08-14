@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel;
 using BepInEx;
 using HarmonyLib;
 using Nautilus.Handlers;
@@ -6,6 +7,7 @@ using Nautilus.Patchers;
 using Nautilus.Utility;
 using Nautilus.Utility.ModMessages;
 using UnityEngine;
+using UnityEngine.U2D;
 #if BELOWZERO
 using UnityEngine.U2D;
 #endif
@@ -15,7 +17,7 @@ namespace Nautilus;
 /// <summary>
 /// WARNING: This class is for use only by BepInEx.
 /// </summary>
-[System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+[EditorBrowsable(EditorBrowsableState.Never)]
 [BepInPlugin(PluginInfo.PLUGIN_GUID, PluginInfo.PLUGIN_NAME, PluginInfo.PLUGIN_VERSION)]
 #if BELOWZERO
 [BepInProcess("SubnauticaZero.exe")]
@@ -26,8 +28,8 @@ namespace Nautilus;
 public class Initializer : BaseUnityPlugin
 {
     private static readonly Harmony _harmony = new(PluginInfo.PLUGIN_GUID);
-
-#if BELOWZERO
+    internal static NautilusConfig ConfigFile { get; private set; } = OptionsPanelHandler.RegisterModOptions<NautilusConfig>();
+    
     static Initializer()
     {
         var handle = AddressablesUtility.LoadAllAsync<SpriteAtlas>("SpriteAtlases");
@@ -35,7 +37,6 @@ public class Initializer : BaseUnityPlugin
         // Please dont use this method. I hate using it but we have no other choice.
         _ = handle.WaitForCompletion();
     }
-#endif
 
     /// <summary>
     /// WARNING: This method is for use only by BepInEx.
@@ -87,5 +88,7 @@ public class Initializer : BaseUnityPlugin
         BiomePatcher.Patch(_harmony);
         DependencyWarningPatcher.Patch(_harmony);
         MainMenuPatcher.Patch(_harmony, Config);
+        WaitScreenPatcher.Patch(_harmony);
+        uGUI_CraftingMenuPatcher.Patch(_harmony);
     }
 }
