@@ -4,13 +4,8 @@
       "src": [
         {
           "files": [
-            "*.csproj"
-          ],
-		  "exclude": [
-                "**/obj/**",
-                "**/bin/**",
-                "_site/**"
-            ]
+            "bin/SN.STABLE/Nautilus.dll"
+          ]
         }
       ],
 	  "shouldSkipMarkup": true,
