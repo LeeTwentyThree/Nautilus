@@ -49,6 +49,8 @@
 
 - name: Quick References
   items:
+    - name: Biome settings references
+      href: biome-setting-references.md
     - name: Customizing your C# project
       href: csproj-tutorials.md
     - name: Craft tree paths
